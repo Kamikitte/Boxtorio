@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Boxtorio/appsettings.json
+/Boxtorio/Migrations
+/Boxtorio/Migrations/DataContextModelSnapshot.cs

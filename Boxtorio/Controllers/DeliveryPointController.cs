@@ -1,4 +1,5 @@
-﻿using Boxtorio.Models;
+﻿using Boxtorio.Data.Entities;
+using Boxtorio.Models;
 using Boxtorio.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,5 +28,9 @@ namespace Boxtorio.Controllers
 		[HttpPost]
 		public async Task<IEnumerable<WorkerModel>> GetWorkers(Guid deliverypoint)
 			=> await _dpservice.GetWorkersFromDP(deliverypoint);
+
+		[HttpGet]
+		public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
+			=> await _dpservice.GetDeliveryPoints();
 	}
 }

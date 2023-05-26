@@ -5,7 +5,7 @@
 		public Guid Id { get; set; }
 		public string Address { get; set; } = null!;
 
-		public virtual ICollection<Worker>? Workers { get; set; }
+		public virtual ICollection<Worker>? Workers { get; set; } = new List<Worker>();
 		public virtual ICollection<Box> Boxes { get; set; } = new List<Box>();
 		public virtual ICollection<Place> Places { get; set; } = new List<Place>();
 	}

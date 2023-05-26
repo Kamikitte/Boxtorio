@@ -7,6 +7,7 @@ using Boxtorio.Services;
 using Boxtorio.Data;
 using Boxtorio.Middlewares;
 using Boxtorio.Common;
+using System.Text.Json.Serialization;
 
 internal class Program
 {
@@ -28,7 +29,7 @@ internal class Program
 		{
 			c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
 			{
-				Description = "ъеъ",
+				Description = "Введите токен авторизации",
 				Name = "Authorization",
 				In = ParameterLocation.Header,
 				Type = SecuritySchemeType.ApiKey,
@@ -89,6 +90,12 @@ internal class Program
 		builder.Services.AddDbContext<DataContext>(options =>
 		{
 			options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSql"), sql => { });
+		});
+
+		builder.Services.AddControllers().AddJsonOptions(options =>
+		{
+			options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+			options.JsonSerializerOptions.WriteIndented = true;
 		});
 
 		var app = builder.Build();

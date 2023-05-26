@@ -37,6 +37,11 @@ namespace Boxtorio.Services
 			return point;
 		}
 
+		public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
+		{
+			return _context.DeliveryPoints.Include(x => x.Workers);
+		}
+
 		public async Task AssignWorker(Guid workerid, Guid deliverypointid)
 		{
 			var point = await GetDeliveryPoint(deliverypointid);
