@@ -3,5 +3,5 @@
 	public class CreateDeliveryPointModel
 	{
 		public string Address { get; set; } = null!;
-    }
+	}
 }
