@@ -24,5 +24,7 @@ namespace Boxtorio.Data
 		public DbSet<Worker> Workers => Set<Worker>();
 		public DbSet<AccountSession> AccountSessions => Set<AccountSession>();
 		public DbSet<DeliveryPoint> DeliveryPoints => Set<DeliveryPoint>();
+		public DbSet<Box> Boxes => Set<Box>();
+		public DbSet<Place> Places => Set<Place>();
 	}
 }

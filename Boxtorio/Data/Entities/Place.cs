@@ -9,5 +9,6 @@
 		public int ShelfId { get; set; }
 
 		public virtual ICollection<Box>? Boxes { get; set; }
+		public virtual DeliveryPoint DeliveryPoint { get; set; } = null!;
 	}
 }

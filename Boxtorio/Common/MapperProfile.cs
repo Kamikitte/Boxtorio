@@ -24,6 +24,9 @@ namespace Boxtorio.Common
 
 			CreateMap<CreateDeliveryPointModel, DeliveryPoint>()
 				.ForMember(d => d.Id, m => m.MapFrom(s => Guid.NewGuid()));
+
+			CreateMap<CreatePlaceModel, Place>()
+				.ForMember(d => d.Id, m => m.MapFrom(s => Guid.NewGuid()));
 		}
 	}
 }

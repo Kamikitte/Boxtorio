@@ -10,6 +10,6 @@
 
 	public class WorkerModel : AccountModel
 	{
-        public Guid? DeliveryPointId { get; set; }
-    }
+		public Guid? DeliveryPointId { get; set; }
+	}
 }

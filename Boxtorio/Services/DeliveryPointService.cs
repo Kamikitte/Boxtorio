@@ -28,6 +28,7 @@ namespace Boxtorio.Services
 		{
 			var point = await _context.DeliveryPoints
 				.Include(x => x.Workers)
+				.Include(x => x.Places)
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (point == null)
 			{
@@ -39,7 +40,9 @@ namespace Boxtorio.Services
 
 		public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
 		{
-			return _context.DeliveryPoints.Include(x => x.Workers);
+			return _context.DeliveryPoints
+				.Include(x => x.Workers)
+				.Include(x => x.Places);
 		}
 
 		public async Task AssignWorker(Guid workerid, Guid deliverypointid)
@@ -53,6 +56,13 @@ namespace Boxtorio.Services
 		{
 			var point = await GetDeliveryPoint(deliverypointid);
 			return point.Workers.Select(_mapper.Map<WorkerModel>);
+		}
+
+		public async Task AddNewPlace(CreatePlaceModel model)
+		{
+			var place = _mapper.Map<Place>(model);
+			await _context.Places.AddAsync(place);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

@@ -73,5 +73,10 @@ namespace Boxtorio.Services
 				throw new Exception("Account not found");
 			return account;
 		}
+
+		public async Task<IEnumerable<T>> GetAccounts<T>() where T : Account
+		{
+			return _context.Set<T>();
+		}
 	}
 }

@@ -32,5 +32,9 @@ namespace Boxtorio.Controllers
 		[HttpGet]
 		public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
 			=> await _dpservice.GetDeliveryPoints();
+
+		[HttpPost]
+		public async Task AddNewPlace(CreatePlaceModel model)
+			=> await _dpservice.AddNewPlace(model);
 	}
 }
