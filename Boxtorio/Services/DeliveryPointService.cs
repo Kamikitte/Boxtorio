@@ -29,6 +29,7 @@ namespace Boxtorio.Services
 			var point = await _context.DeliveryPoints
 				.Include(x => x.Workers)
 				.Include(x => x.Places)
+				.Include(x => x.Boxes)
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (point == null)
 			{
@@ -42,7 +43,8 @@ namespace Boxtorio.Services
 		{
 			return _context.DeliveryPoints
 				.Include(x => x.Workers)
-				.Include(x => x.Places);
+				.Include(x => x.Places)
+				.Include(x => x.Boxes);
 		}
 
 		public async Task AssignWorker(Guid workerid, Guid deliverypointid)

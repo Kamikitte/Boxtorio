@@ -58,6 +58,7 @@ internal class Program
 		builder.Services.AddScoped<AccountService>();
 		builder.Services.AddScoped<AuthService>();
 		builder.Services.AddScoped<DeliveryPointService>();
+		builder.Services.AddScoped<BoxService>();
 
 		builder.Services.AddAuthentication(o =>
 		{
