@@ -1,7 +1,6 @@
-﻿namespace Boxtorio.Models
+﻿namespace Boxtorio.Models;
+
+public class CreateDeliveryPointModel
 {
-	public class CreateDeliveryPointModel
-	{
-		public string Address { get; set; } = null!;
-	}
+	public string Address { get; set; } = null!;
 }

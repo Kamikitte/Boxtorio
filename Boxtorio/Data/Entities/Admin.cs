@@ -1,6 +1,5 @@
-﻿namespace Boxtorio.Data.Entities
+﻿namespace Boxtorio.Data.Entities;
+
+public class Admin : Account
 {
-	public class Admin : Account
-	{
-	}
 }
