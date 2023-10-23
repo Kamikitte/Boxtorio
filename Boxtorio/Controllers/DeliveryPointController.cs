@@ -9,36 +9,36 @@ namespace Boxtorio.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
 [Authorize(Roles = "Admin")]
-public class DeliveryPointController : ControllerBase
+public sealed class DeliveryPointController : ControllerBase
 {
-	private readonly DeliveryPointService _dpservice;
+	private readonly DeliveryPointService dpservice;
 	public DeliveryPointController(DeliveryPointService dpservice)
 	{
-		_dpservice = dpservice;
+		this.dpservice = dpservice;
 	}
 
 	[HttpPost]
 	public async Task Create(CreateDeliveryPointModel model)
-		=> await _dpservice.CreateDeliveryPoint(model);
+		=> await dpservice.CreateDeliveryPoint(model);
 
 	[HttpPost]
 	public async Task<DeliveryPoint> GetDeliveryPoint(Guid id)
-		=> await _dpservice.GetDeliveryPoint(id);
+		=> await dpservice.GetDeliveryPoint(id);
 
 	[HttpGet]
 	public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
-		=> await _dpservice.GetDeliveryPoints();
+		=> await dpservice.GetDeliveryPoints();
 
 	[HttpPost]
 	public async Task AssignWorker(Guid workerid, Guid deliverypointid)
-		=> await _dpservice.AssignWorker(workerid, deliverypointid);
+		=> await dpservice.AssignWorker(workerid, deliverypointid);
 
 	[HttpPost]
 	public async Task<IEnumerable<WorkerModel>> GetWorkers(Guid deliverypoint)
-		=> await _dpservice.GetWorkersFromDP(deliverypoint);
+		=> await dpservice.GetWorkersFromDp(deliverypoint);
 
 
 	[HttpPost]
 	public async Task AddNewPlace(CreatePlaceModel model)
-		=> await _dpservice.AddNewPlace(model);
+		=> await dpservice.AddNewPlace(model);
 }

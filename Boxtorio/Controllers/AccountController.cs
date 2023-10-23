@@ -9,14 +9,14 @@ namespace Boxtorio.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class AccountController : ControllerBase
+public sealed class AccountController : ControllerBase
 {
-	private readonly AccountService _accountService;
-	private readonly IMapper _mapper;
+	private readonly AccountService accountService;
+	private readonly IMapper mapper;
 	public AccountController(AccountService accountService, IMapper mapper)
 	{
-		_accountService = accountService;
-		_mapper = mapper;
+		this.accountService = accountService;
+		this.mapper = mapper;
 	}
 
 	[HttpGet]
@@ -26,17 +26,17 @@ public class AccountController : ControllerBase
 		var userIdString = User.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
 		if (Guid.TryParse(userIdString, out var userId))
 		{
-			return await _accountService.GetAccount(userId);
+			return await accountService.GetAccount(userId);
 		}
-		else
-			throw new Exception("you are not authorized");
-	}
+
+        throw new ArgumentException("you are not authorized");
+    }
 
 	[HttpGet]
 	[Authorize]
 	public async Task<IEnumerable<WorkerModel>> GetWorkers()
 	{
-		var workers = await _accountService.GetAccounts<Worker>();
-		return _mapper.Map<IEnumerable<WorkerModel>>(workers);
+		var workers = await accountService.GetAccounts<Worker>();
+		return mapper.Map<IEnumerable<WorkerModel>>(workers);
 	}
 }

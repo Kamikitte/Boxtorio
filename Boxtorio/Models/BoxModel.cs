@@ -1,6 +1,6 @@
 ﻿namespace Boxtorio.Models;
 
-public class BoxModel
+public sealed class BoxModel
 {
 	public Guid Id { get; set; }
 	public Guid DeliveryPointId { get; set; }

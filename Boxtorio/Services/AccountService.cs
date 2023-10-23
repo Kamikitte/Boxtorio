@@ -6,76 +6,77 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Boxtorio.Services;
 
-public class AccountService
+public sealed class AccountService
 {
-	private readonly IMapper _mapper;
-	private readonly DataContext _context;
+	private readonly IMapper mapper;
+	private readonly DataContext context;
 	public AccountService(IMapper mapper, DataContext context)
 	{
-		_mapper = mapper;
-		_context = context;
+		this.mapper = mapper;
+		this.context = context;
 	}
 
-	public async Task<Guid> CreateAccount(CreateAccountModel model)
+	public async Task CreateAccount(CreateAccountModel model)
 	{
 
 		switch (model.Role)
 		{
 			case "Admin":
-				var admin = _mapper.Map<CreateAccountModel, Admin>(model);
-				await _context.Admins.AddAsync(admin);
+				var admin = mapper.Map<CreateAccountModel, Admin>(model);
+				await context.Admins.AddAsync(admin);
 				break;
 			case "Worker":
-				var worker = _mapper.Map<CreateAccountModel, Worker>(model);
-				await _context.Workers.AddAsync(worker);
+				var worker = mapper.Map<CreateAccountModel, Worker>(model);
+				await context.Workers.AddAsync(worker);
 				break;
 			default:
 				throw new ArgumentException("Invalid account role");
 		}
-		await _context.SaveChangesAsync();
-		return _context.Accounts.First(x => x.Email == model.Email).Id;
-	}
+		await context.SaveChangesAsync();
+    }
 
 	public async Task<bool> CheckAccountExist(string email)
 	{
-		return await _context.Accounts.AnyAsync(x => x.Email.ToLower() == email.ToLower());
+		return await context.Accounts.AnyAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
 	}
 
 	public async Task Delete(Guid id)
 	{
 		var dbUser = await GetAccountById(id);
-		if (dbUser != null)
-		{
-			_context.Accounts.Remove(dbUser);
-			await _context.SaveChangesAsync();
-		}
-	}
+        context.Accounts.Remove(dbUser);
+        await context.SaveChangesAsync();
+    }
 
 	private async Task<Account> GetAccountById(Guid id)
 	{
-		var user = await _context.Accounts.FindAsync(id);
+		var user = await context.Accounts.FindAsync(id);
 		if (user == null)
-			throw new Exception("user not found");
+        {
+            throw new ArgumentException("user not found");
+        }
 
-		return user;
+        return user;
 	}
 
 	public async Task<AccountModel> GetAccount(Guid id)
 	{
 		var user = await GetAccountById(id);
-		return _mapper.Map<AccountModel>(user);
+		return mapper.Map<AccountModel>(user);
 	}
 
 	public async Task<T> GetAccount<T>(Guid id) where T : Account
 	{
-		var account = await _context.Set<T>().FindAsync(id);
+		var account = await context.Set<T>().FindAsync(id);
 		if (account == null)
-			throw new Exception("Account not found");
-		return account;
-	}
+        {
+            throw new ArgumentException("Account not found");
+        }
 
-	public async Task<IEnumerable<T>> GetAccounts<T>() where T : Account
+        return account;
+    }
+
+	public Task<IEnumerable<T>> GetAccounts<T>() where T : Account
 	{
-		return _context.Set<T>();
+		return Task.FromResult<IEnumerable<T>>(context.Set<T>());
 	}
 }

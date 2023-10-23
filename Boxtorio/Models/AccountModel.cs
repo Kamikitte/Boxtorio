@@ -8,7 +8,7 @@ public class AccountModel
 	public string Role { get; set; } = null!;
 }
 
-public class WorkerModel : AccountModel
+public sealed class WorkerModel : AccountModel
 {
 	public Guid? DeliveryPointId { get; set; }
 }

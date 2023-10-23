@@ -1,6 +1,6 @@
 ﻿namespace Boxtorio.Models;
 
-public class TokenRequestModel
+public sealed class TokenRequestModel
 {
 	public string Login { get; set; }
 	public string Password { get; set; }
@@ -12,7 +12,7 @@ public class TokenRequestModel
 	}
 }
 
-public class RefreshTokenRequestModel
+public sealed class RefreshTokenRequestModel
 {
 	public string RefreshToken { get; set; }
 

@@ -2,12 +2,12 @@
 
 namespace Boxtorio.Middlewares;
 
-public class TokenValidatorMiddleware
+public sealed class TokenValidatorMiddleware
 {
-	private readonly RequestDelegate _next;
+	private readonly RequestDelegate next;
 	public TokenValidatorMiddleware(RequestDelegate next)
 	{
-		_next = next;
+		this.next = next;
 	}
 
 	public async Task InvokeAsync(HttpContext context, AuthService authService)
@@ -26,14 +26,14 @@ public class TokenValidatorMiddleware
 		}
 		if (isOk)
 		{
-			await _next(context);
+			await next(context);
 		}
 	}
 }
 public static class TokenValidatorMiddlewareExtensions
 {
-	public static IApplicationBuilder UseTokenValidator(this IApplicationBuilder builder)
-	{
-		return builder.UseMiddleware<TokenValidatorMiddleware>();
-	}
+	public static void UseTokenValidator(this IApplicationBuilder builder)
+    {
+        builder.UseMiddleware<TokenValidatorMiddleware>();
+    }
 }

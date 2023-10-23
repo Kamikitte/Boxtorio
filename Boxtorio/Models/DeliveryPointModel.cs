@@ -2,12 +2,12 @@
 
 namespace Boxtorio.Models;
 
-public class DeliveryPointModel
+public sealed class DeliveryPointModel
 {
 	public Guid Id { get; set; }
 	public string Address { get; set; } = null!;
 
-	public virtual ICollection<Worker>? Workers { get; set; }
-	public virtual ICollection<Box>? Boxes { get; set; }
-	public virtual ICollection<Place>? Places { get; set; }
+	public ICollection<Worker>? Workers { get; set; }
+	public ICollection<Box>? Boxes { get; set; }
+	public ICollection<Place>? Places { get; set; }
 }

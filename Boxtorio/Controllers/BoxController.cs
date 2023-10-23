@@ -8,27 +8,27 @@ namespace Boxtorio.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
 [Authorize]
-public class BoxController : ControllerBase
+public sealed class BoxController : ControllerBase
 {
-	private readonly BoxService _boxService;
+	private readonly BoxService boxService;
 	public BoxController(BoxService boxService)
 	{
-		_boxService = boxService;
+		this.boxService = boxService;
 	}
 
 	[HttpPost]
 	public async Task AddBox(CreateBoxModel model)
-		=> await _boxService.AddBox(model);
+		=> await boxService.AddBox(model);
 
 	[HttpPost]
-	public async Task<IEnumerable<BoxModel>> GetBoxesFromDP(Guid dpid)
-		=> await _boxService.GetBoxesFromDP(dpid);
+	public async Task<IEnumerable<BoxModel>> GetBoxesFromDp(Guid dpid)
+		=> await boxService.GetBoxesFromDp(dpid);
 
 	[HttpPost]
 	public async Task ChangeBox(BoxModel newModel)
-		=> await _boxService.ChangeBox(newModel);
+		=> await boxService.ChangeBox(newModel);
 
 	[HttpPost]
 	public async Task RemoveBox(Guid boxid)
-		=> await _boxService.RemoveBox(boxid);
+		=> await boxService.RemoveBox(boxid);
 }

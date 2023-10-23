@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Boxtorio.Configs;
 
-public class AuthConfig
+public sealed class AuthConfig
 {
 	public const string Position = "auth";
 	public string Issuer { get; set; } = null!;

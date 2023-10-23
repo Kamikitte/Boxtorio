@@ -6,64 +6,64 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Boxtorio.Services;
 
-public class DeliveryPointService
+public sealed class DeliveryPointService
 {
-	private readonly IMapper _mapper;
-	private readonly DataContext _context;
-	private readonly AccountService _accountService;
+	private readonly IMapper mapper;
+	private readonly DataContext context;
+	private readonly AccountService accountService;
 	public DeliveryPointService(IMapper mapper, DataContext context, AccountService accountService)
 	{
-		_mapper = mapper;
-		_context = context;
-		_accountService = accountService;
+		this.mapper = mapper;
+		this.context = context;
+		this.accountService = accountService;
 	}
 
 	public async Task CreateDeliveryPoint(CreateDeliveryPointModel model)
 	{
-		var deliveryPoint = _mapper.Map<DeliveryPoint>(model);
-		await _context.DeliveryPoints.AddAsync(deliveryPoint);
-		await _context.SaveChangesAsync();
-	} 
+		var deliveryPoint = mapper.Map<DeliveryPoint>(model);
+		await context.DeliveryPoints.AddAsync(deliveryPoint);
+		await context.SaveChangesAsync();
+	}
 	public async Task<DeliveryPoint> GetDeliveryPoint(Guid id)
 	{
-		var point = await _context.DeliveryPoints
+		var point = await context.DeliveryPoints
 			.Include(x => x.Workers)
 			.Include(x => x.Places)
 			.Include(x => x.Boxes)
 			.FirstOrDefaultAsync(x => x.Id == id);
 		if (point == null)
 		{
-			throw new Exception("Delivery point not found");
+			throw new ArgumentException("Delivery point not found");
 		}
 
 		return point;
 	}
 
-	public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
+	public Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
 	{
-		return _context.DeliveryPoints
-			.Include(x => x.Workers)
-			.Include(x => x.Places)
-			.Include(x => x.Boxes);
+		return Task.FromResult<IEnumerable<DeliveryPoint>>(context.DeliveryPoints
+            .Include(x => x.Workers)
+            .Include(x => x.Places)
+            .Include(x => x.Boxes));
 	}
 
 	public async Task AssignWorker(Guid workerid, Guid deliverypointid)
 	{
-		var point = await GetDeliveryPoint(deliverypointid);
-		var worker = await _accountService.GetAccount<Worker>(workerid);
+		await GetDeliveryPoint(deliverypointid);
+		var worker = await accountService.GetAccount<Worker>(workerid);
 		worker.DeliveryPointId = deliverypointid;
-		await _context.SaveChangesAsync();
+		await context.SaveChangesAsync();
 	}
-	public async Task<IEnumerable<WorkerModel>> GetWorkersFromDP(Guid deliverypointid)
-	{
-		var point = await GetDeliveryPoint(deliverypointid);
-		return point.Workers.Select(_mapper.Map<WorkerModel>);
-	}
+	public async Task<IEnumerable<WorkerModel>> GetWorkersFromDp(Guid deliverypointid)
+    {
+        var point = await GetDeliveryPoint(deliverypointid);
+        return point.Workers != null ? point.Workers.Select(mapper.Map<WorkerModel>) : new List<WorkerModel>();
+    }
 
 	public async Task AddNewPlace(CreatePlaceModel model)
 	{
-		var place = _mapper.Map<Place>(model);
-		await _context.Places.AddAsync(place);
-		await _context.SaveChangesAsync();
+		var place = mapper.Map<Place>(model);
+		await context.Places.AddAsync(place);
+		await context.SaveChangesAsync();
 	}
 }

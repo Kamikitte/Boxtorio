@@ -1,6 +1,6 @@
 ﻿namespace Boxtorio.Models;
 
-public class TokenModel
+public sealed class TokenModel
 {
 	public string AccessToken { get; set; }
 	public string RefreshToken { get; set; }

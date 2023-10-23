@@ -2,7 +2,7 @@
 
 namespace Boxtorio.Models;
 
-public class PlaceModel
+public sealed class PlaceModel
 {
 	public Guid Id { get; set; }
 	public Guid DeliveryPointId { get; set; }
@@ -10,6 +10,6 @@ public class PlaceModel
 	public int RackId { get; set; }
 	public int ShelfId { get; set; }
 
-	public virtual ICollection<Box>? Boxes { get; set; }
-	public virtual DeliveryPoint DeliveryPoint { get; set; } = null!;
+	public ICollection<Box>? Boxes { get; set; }
+	public DeliveryPoint DeliveryPoint { get; set; } = null!;
 }

@@ -6,22 +6,19 @@ namespace Boxtorio.Common;
 public static class HashHelper
 {
 	public static string GetHash(string input)
-	{
-		using (var sha = SHA256.Create())
-		{
-			var data = sha.ComputeHash(Encoding.UTF8.GetBytes(input));
+    {
+        var data = SHA256.HashData(Encoding.UTF8.GetBytes(input));
 
-			var sb = new StringBuilder();
-			for (int i = 0; i < data.Length; i++)
-			{
-				sb.Append(data[i].ToString("x2"));
-			}
+        var sb = new StringBuilder();
+        foreach (var t in data)
+        {
+            sb.Append(t.ToString("x2"));
+        }
 
-			return sb.ToString();
-		}
-	}
+        return sb.ToString();
+    }
 
-	public static bool Verify(string input, string hash)
+    public static bool Verify(string input, string hash)
 	{
 		var hashImput = GetHash(input);
 		var comparer = StringComparer.OrdinalIgnoreCase;

@@ -4,7 +4,7 @@ using Boxtorio.Models;
 
 namespace Boxtorio.Common;
 
-public class MapperProile : Profile
+public sealed class MapperProile : Profile
 {
 	public MapperProile()
 	{
