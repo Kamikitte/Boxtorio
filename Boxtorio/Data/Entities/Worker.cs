@@ -2,6 +2,6 @@
 
 public sealed class Worker : Account
 {
-	public Guid? DeliveryPointId { get; set; }
-	public DeliveryPoint? DeliveryPoint { get; set; }
+    public Guid? DeliveryPointId { get; set; }
+    public DeliveryPoint? DeliveryPoint { get; set; }
 }

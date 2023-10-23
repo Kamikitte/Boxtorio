@@ -2,5 +2,5 @@
 
 public sealed class CreateDeliveryPointModel
 {
-	public string Address { get; set; } = null!;
+    public string Address { get; set; } = null!;
 }

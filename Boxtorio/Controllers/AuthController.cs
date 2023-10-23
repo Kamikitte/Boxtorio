@@ -8,31 +8,31 @@ namespace Boxtorio.Controllers;
 [ApiController]
 public sealed class AuthController : ControllerBase
 {
-	private readonly AuthService authService;
-	private readonly AccountService accountService;
+    private readonly AccountService accountService;
+    private readonly AuthService authService;
 
-	public AuthController(AuthService authService, AccountService accountService)
-	{
-		this.authService = authService;
-		this.accountService = accountService;
-	}
+    public AuthController(AuthService authService, AccountService accountService)
+    {
+        this.authService = authService;
+        this.accountService = accountService;
+    }
 
-	[HttpPost]
-	public async Task CreateUser(CreateAccountModel model)
-	{
-		if (await accountService.CheckAccountExist(model.Email))
+    [HttpPost]
+    public async Task CreateUser(CreateAccountModel model)
+    {
+        if (await accountService.CheckAccountExist(model.Email))
         {
             throw new ArgumentException("user is exist");
         }
 
         await accountService.CreateAccount(model);
-	}
+    }
 
-	[HttpPost]
-	public async Task<TokenModel> Token(TokenRequestModel model)
-		=> await authService.GetToken(model.Login, model.Password);
+    [HttpPost]
+    public async Task<TokenModel> Token(TokenRequestModel model)
+        => await authService.GetToken(model.Login, model.Password);
 
-	[HttpPost]
-	public async Task<TokenModel> RefreshToken(RefreshTokenRequestModel model)
-		=> await authService.GetTokenByRefreshToken(model.RefreshToken);
+    [HttpPost]
+    public async Task<TokenModel> RefreshToken(RefreshTokenRequestModel model)
+        => await authService.GetTokenByRefreshToken(model.RefreshToken);
 }

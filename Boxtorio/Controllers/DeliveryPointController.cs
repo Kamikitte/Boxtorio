@@ -11,34 +11,35 @@ namespace Boxtorio.Controllers;
 [Authorize(Roles = "Admin")]
 public sealed class DeliveryPointController : ControllerBase
 {
-	private readonly DeliveryPointService dpservice;
-	public DeliveryPointController(DeliveryPointService dpservice)
-	{
-		this.dpservice = dpservice;
-	}
+    private readonly DeliveryPointService dpservice;
 
-	[HttpPost]
-	public async Task Create(CreateDeliveryPointModel model)
-		=> await dpservice.CreateDeliveryPoint(model);
+    public DeliveryPointController(DeliveryPointService dpservice)
+    {
+        this.dpservice = dpservice;
+    }
 
-	[HttpPost]
-	public async Task<DeliveryPoint> GetDeliveryPoint(Guid id)
-		=> await dpservice.GetDeliveryPoint(id);
+    [HttpPost]
+    public async Task Create(CreateDeliveryPointModel model)
+        => await dpservice.CreateDeliveryPoint(model);
 
-	[HttpGet]
-	public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
-		=> await dpservice.GetDeliveryPoints();
+    [HttpPost]
+    public async Task<DeliveryPoint> GetDeliveryPoint(Guid id)
+        => await dpservice.GetDeliveryPoint(id);
 
-	[HttpPost]
-	public async Task AssignWorker(Guid workerid, Guid deliverypointid)
-		=> await dpservice.AssignWorker(workerid, deliverypointid);
+    [HttpGet]
+    public async Task<IEnumerable<DeliveryPoint>> GetDeliveryPoints()
+        => await dpservice.GetDeliveryPoints();
 
-	[HttpPost]
-	public async Task<IEnumerable<WorkerModel>> GetWorkers(Guid deliverypoint)
-		=> await dpservice.GetWorkersFromDp(deliverypoint);
+    [HttpPost]
+    public async Task AssignWorker(Guid workerid, Guid deliverypointid)
+        => await dpservice.AssignWorker(workerid, deliverypointid);
+
+    [HttpPost]
+    public async Task<IEnumerable<WorkerModel>> GetWorkers(Guid deliverypoint)
+        => await dpservice.GetWorkersFromDp(deliverypoint);
 
 
-	[HttpPost]
-	public async Task AddNewPlace(CreatePlaceModel model)
-		=> await dpservice.AddNewPlace(model);
+    [HttpPost]
+    public async Task AddNewPlace(CreatePlaceModel model)
+        => await dpservice.AddNewPlace(model);
 }
